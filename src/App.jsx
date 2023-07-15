@@ -1,5 +1,6 @@
 import React from 'react'
 import '../src/index.css'
+import { Analytics } from '@vercel/analytics/react'
 
 import { Header, Products } from './components'
 
@@ -8,6 +9,7 @@ function App() {
     <div>
       <Header />
       <Products />
+      <Analytics />
     </div>
   )
 }
