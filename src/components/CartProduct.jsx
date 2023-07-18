@@ -1,17 +1,33 @@
 import React, { useState } from "react";
-import { deleteProduct } from '../redux/cartSlice'
-import { useDispatch } from 'react-redux' 
+import { deleteProduct, changeQty } from "../redux/cartSlice";
+import { useDispatch } from "react-redux";
 
 import { AiOutlineCloseSquare } from "react-icons/ai";
 
-
 const CartProduct = ({ data }) => {
+  const [qty, setQty] = useState(1);
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const handleRemove = (id) => {
+    dispatch(deleteProduct(id));
+  };
 
-  const handleRemove = (id)=>{
-    dispatch(deleteProduct(id))
-  }
+  const changeQtyInStore = (id) => {//to change the qty value in store
+    dispatch(changeQty({ id, qty }));
+    console.log(id)
+  };
+
+  const increaseQty = (id) => {
+    setQty((preQty) => preQty + 1);
+    changeQtyInStore(id);
+  };
+
+  const decreaseQty = (id) => {
+    if (qty > 1) {
+      setQty((preQty) => preQty - 1);
+      changeQtyInStore(id);
+    }
+  };
 
   return (
     <div className="max-w-[1200px] flex border-2 mx-auto mb-[25px] shadow-md">
@@ -25,14 +41,33 @@ const CartProduct = ({ data }) => {
             <p>Price: ${data.price}</p>
           </div>
           <div className="">
-            <button className="border-2 border-gray-500 h-[28px] w-[28px] rounded-full">-</button>
-            <input type="number" className="border-2 border-gray-500 w-[50px] mx-[10px]"/>
-            <button className="border-2 border-gray-500 h-[28px] w-[28px] rounded-full">+</button>
+            <button
+              onClick={() => {
+                decreaseQty(data.id);
+              }}
+              className="border-2 border-gray-500 h-[28px] w-[28px] rounded-full"
+            >
+              -
+            </button>
+            <input
+              value={qty}
+              onChange={() => {}}
+              type="number"
+              className=" border-2 border-gray-500 w-[50px] mx-[10px]"
+            />
+            <button
+              onClick={() => {
+                increaseQty(data.id);
+              }}
+              className="border-2 border-gray-500 h-[28px] w-[28px] rounded-full"
+            >
+              +
+            </button>
           </div>
         </div>
         <div>
           <button onClick={() => handleRemove(data.id)} className="m-[10px]">
-            <AiOutlineCloseSquare style={{fontSize: "25px"}}/>
+            <AiOutlineCloseSquare style={{ fontSize: "25px" }} />
           </button>
         </div>
       </div>

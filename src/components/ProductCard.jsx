@@ -5,12 +5,14 @@ import {Rate} from 'antd'
 import  { useDispatch } from 'react-redux'
 import { addProduct } from '../redux/cartSlice'
 
+const qty = 1
+
 const ProductCard = ({ data }) => {
 
     const dispatch = useDispatch()
 
     const handleAddToCart = () => {
-        dispatch(addProduct(data))
+        dispatch(addProduct({...data, qty}))
     }
 
   return (
