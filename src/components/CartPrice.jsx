@@ -9,7 +9,7 @@ const CartPrice = ({cartItems, totalPrice}) => {
             <Divider style={{margin: "10px 0",}} />
             <div className='w-full flex items-center justify-between'>
               <p>Price {`(${cartItems.length} item)`}</p>
-              <p>${totalPrice}</p>
+              <p>${parseFloat(totalPrice).toFixed(2)}</p>
             </div>
           </div>
   )

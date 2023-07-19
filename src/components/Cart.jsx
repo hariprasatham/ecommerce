@@ -6,7 +6,7 @@ import { Header, CartListing, EmptyCartPage } from "../components";
 const Cart = () => {
   const cartItems = useSelector((state) => state.cartItems);
   const totalPrice = cartItems.reduce((accumulator, product) => {
-    return accumulator + product.price;
+    return accumulator + (product.price * product.qty);
   }, 0);
 
   return (

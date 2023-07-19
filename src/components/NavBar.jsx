@@ -2,8 +2,10 @@ import React from "react";
 import Logo from "../assets/flipkart-plus_logo.png";
 import { BsCart4 } from "react-icons/bs";
 import { Link } from "react-router-dom";
-
+import { Badge } from 'antd'
+import { useSelector } from 'react-redux'
 const NavBar = () => {
+  const cartProductQty = useSelector((state)=> state.cartItems.length)
   return (
     <div className="bg-blue-600 flex flex-col items-center justify-center py-[10px] w-full">
       <div className="container min-w-[80%] flex items-center justify-between px-[30px] max-w-[1200px]">
@@ -20,10 +22,12 @@ const NavBar = () => {
             Login
           </button>
           <Link to="/Cart">
-            <button className="flex items-center text-white">
-              <BsCart4 className="mr-[5px]" style={{ color: "white" }} />
-              Cart
-            </button>
+              <button className="flex items-center text-white">
+            <Badge count={cartProductQty} overflowCount={5} size="small">
+                <BsCart4 className="mr-[5px]" style={{ color: "white", fontSize: "18px"}}/>
+            </Badge>
+                Cart
+              </button>
           </Link>
         </div>
       </div>

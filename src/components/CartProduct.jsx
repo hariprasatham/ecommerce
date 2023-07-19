@@ -12,20 +12,20 @@ const CartProduct = ({ data }) => {
     dispatch(deleteProduct(id));
   };
 
-  const changeQtyInStore = (id) => {//to change the qty value in store
+  const changeQtyInStore = (id, qty) => {//to change the qty value in store
     dispatch(changeQty({ id, qty }));
-    console.log(id)
+    console.log(qty)
   };
 
   const increaseQty = (id) => {
     setQty((preQty) => preQty + 1);
-    changeQtyInStore(id);
+    changeQtyInStore(id, qty+1);
   };
 
   const decreaseQty = (id) => {
     if (qty > 1) {
       setQty((preQty) => preQty - 1);
-      changeQtyInStore(id);
+      changeQtyInStore(id, qty-1);
     }
   };
 
