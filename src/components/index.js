@@ -8,3 +8,7 @@ export { default as CartProduct } from './CartProduct'
 export { default as CartListing } from './CartListing'
 export { default as CartPrice } from './CartPrice'
 export { default as EmptyCartPage } from './EmptyCartPage'
+export { default as Login } from './Login'
+export { default as Signup } from './Signup'
+export { default as Home } from './Home'
+
