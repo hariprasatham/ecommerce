@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from "../firebase";
 
 import { useForm } from "react-hook-form";
@@ -13,7 +13,7 @@ const Signup = () => {
     await createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log("user----->", user);
+        sendEmailVerification(auth?.currentUser)
         navigate("/login");
       })
       .catch((error) => {
