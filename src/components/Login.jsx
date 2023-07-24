@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../firebase";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -14,8 +14,8 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        
-        localStorage.setItem("user", JSON.stringify(user))
+
+        localStorage.setItem("user", JSON.stringify(user));
         navigate("/");
       })
       .catch((error) => {
@@ -25,10 +25,14 @@ const Login = () => {
       });
   };
 
+  const loginWithGoogle = async () => {
+    await signInWithPopup(auth, provider);
+  };
+
   return (
-    <div className="w-screen h-screen border-2 flex flex-col items-center justify-center">
-      <div className="w-full max-w-xs">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div className="w-screen h-screen flex flex-col items-center justify-center">
+      <div className="w-full flex flex-col items-center justify-center max-w-xs bg-white shadow-md rounded">
+        <form className="w-full px-8 pt-6 pb-2 mb-4">
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -76,6 +80,11 @@ const Login = () => {
             </a>
           </div>
         </form>
+        <button
+          onClick={loginWithGoogle}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >Login with Google
+        </button>
         <p className="text-center text-gray-500 text-xs">
           No account yet?{" "}
           <NavLink

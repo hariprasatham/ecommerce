@@ -13,14 +13,13 @@ const NavBar = () => {
   const navigate = useNavigate()
   const cartProductQty = useSelector((state) => state.cartItems.length);
   let user = localStorage.getItem('user');
-  console.log(user);
   useEffect(()=>{user = localStorage.getItem('user');}, [])
   const handleLogout = () => {               
     signOut(auth).then(() => {
     // Sign-out successful.
         navigate("/");
         localStorage.setItem("user", "")
-        console.log("Signed out successfully")
+        // console.log("Signed out successfully")
     }).catch((error) => {
     // An error happened.
     });
