@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { Rate } from "antd";
+import { Rate, message } from "antd";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/cartSlice";
 import { db, auth } from "../firebase";
-import { collection, addDoc } from "firebase/firestore/lite";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore/lite";
 const qty = 1;
+
+const authId = auth?.currentUser?.uid;
 
 const ProductCard = ({ data }) => {
   const dispatch = useDispatch();
@@ -13,15 +21,37 @@ const ProductCard = ({ data }) => {
     dispatch(addProduct({ ...data, qty }));
   };
 
+  //get the product from firebase based on the productId and userId 
+  const getProduct = async () => {
+    const queryGetProduct = query(
+      collection(db, "cartItems"),
+      where("UID", "==", authId),
+      where("productId", "==", data?.id)
+    );
+    const querySnapshot = await getDocs(queryGetProduct);
+    console.log(querySnapshot.docs[0].data());
+    return querySnapshot
+  };
+
+//initially check the product in the database if it exists it will be not added to the database
   const addItem = async () => {
-    const docRef = await addDoc(collection(db, "cartItems"), {
-      UID: auth.currentUser.uid,
-      productId: data.id,
-      productImage: data.image,
-      productQty: qty,
-      productTitle: data.title,
-    });
-    console.log(docRef)
+    const querySnapShot = getProduct();
+    if (auth.currentUser) {
+      if(querySnapShot.empty){
+        const docRef = await addDoc(collection(db, "cartItems"), {
+          UID: auth?.currentUser?.uid,
+          productId: data.id,
+          productImage: data.image,
+          productQty: qty,
+          productTitle: data.title,
+        });
+      }else{
+        message.warning("Product already exists")
+      }
+      // console.log(docRef);
+    } else {
+      message.warning("login");
+    }
   };
 
   return (
@@ -46,7 +76,7 @@ const ProductCard = ({ data }) => {
             href="#"
             onClick={() => {
               handleAddToCart();
-              addItem()
+              addItem();
             }}
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >

@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 
-import { Cart, Login, Signup, Home } from './components'
+import { Cart, Login, Signup, Home, Form } from './components'
 
 
 
@@ -26,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/home' element={<Home />} />
+            <Route path='/form' element={<Form />} />
           </Routes>
         </Router>
     </PersistGate>
