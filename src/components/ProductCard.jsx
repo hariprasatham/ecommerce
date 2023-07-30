@@ -20,7 +20,6 @@ const ProductCard = ({ data }) => {
   const handleAddToCart = () => {
     dispatch(addProduct({ ...data, qty }));
   };
-
   //get the product from firebase based on the productId and userId 
   const getProduct = async () => {
     const queryGetProduct = query(
@@ -29,16 +28,15 @@ const ProductCard = ({ data }) => {
       where("productId", "==", data?.id)
     );
     const querySnapshot = await getDocs(queryGetProduct);
-    console.log(querySnapshot.docs[0].data());
     return querySnapshot
   };
 
 //initially check the product in the database if it exists it will be not added to the database
   const addItem = async () => {
-    const querySnapShot = getProduct();
+    const querySnapShot = await getProduct();
     if (auth.currentUser) {
-      if(querySnapShot.empty){
-        const docRef = await addDoc(collection(db, "cartItems"), {
+      if(querySnapShot?.empty){
+        await addDoc(collection(db, "cartItems"), {
           UID: auth?.currentUser?.uid,
           productId: data.id,
           productImage: data.image,
